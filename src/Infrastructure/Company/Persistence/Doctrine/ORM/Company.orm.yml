@@ -1,0 +1,49 @@
+App\Domain\Company\Company:
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  table: company
+  id:
+    companyId:
+      type: company_id
+      column: id
+  embedded:
+    address:
+      class: App\Domain\Company\ValueObject\Address
+  uniqueConstraints:
+    search_idx:
+      columns: [name]
+  fields:
+    name:
+      type: string
+      nullable: false,
+    description:
+      type: string
+      nullable: true
+    createdAt:
+      type: datetime
+      column: created_at
+      nullable: true
+    active:
+      type: boolean
+      options:
+        default: 1
+  oneToMany:
+    photos:
+      targetEntity: App\Domain\Company\Model\CompanyPhoto
+      mappedBy: company
+      fetch: EAGER
+      cascade: [ "persist", "remove" ]
+      orphanRemoval: true
+      onDelete: CASCADE
+    offers:
+      targetEntity: App\Domain\Offer\Offer
+      mappedBy: company
+      fetch: EAGER
+      cascade: [ "persist", "remove" ]
+      orphanRemoval: true
+      onDelete: CASCADE
+  oneToOne:
+    user:
+      targetEntity: App\Infrastructure\User\Entity\User
+      inversedBy: company
+      fetch: EAGER

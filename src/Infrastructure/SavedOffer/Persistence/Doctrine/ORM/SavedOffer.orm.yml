@@ -1,0 +1,9 @@
+App\Domain\SavedOffer\SavedOffer:
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  table: saved_offer
+  id:
+    savedOfferId:
+      type: saved_offer_id
+      column: id
+  fields:

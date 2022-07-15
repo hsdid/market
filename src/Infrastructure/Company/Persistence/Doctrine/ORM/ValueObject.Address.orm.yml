@@ -1,0 +1,23 @@
+App\Domain\Company\ValueObject\Address:
+  type: embeddable
+  fields:
+    street:
+      type: string
+      column: street
+      nullable: true
+    address:
+      type: string
+      column: address
+      nullable: true
+    province:
+      type: string
+      column: province
+      nullable: true
+    city:
+      type: string
+      column: city
+      nullable: true
+    postal:
+      type: string
+      column: postal
+      nullable: true

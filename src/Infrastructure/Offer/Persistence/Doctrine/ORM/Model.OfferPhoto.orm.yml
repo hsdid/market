@@ -1,0 +1,27 @@
+App\Domain\Offer\Model\OfferPhoto:
+  type: entity
+  table: offer_photo
+  id:
+    photoId:
+      type: photo_id
+      column: photo_id
+
+  fields:
+    path:
+      type: string
+      nullable: false
+    mimeType:
+      type: string
+      nullable: false
+    originalName:
+      type: string
+      nullable: false
+
+  manyToOne:
+    offer:
+      targetEntity: App\Domain\Offer\Offer
+      inversedBy: photos
+      fetch: EAGER
+      joinColumn:
+        name: offer_id
+        referencedColumnName: id

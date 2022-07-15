@@ -1,0 +1,91 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    images_directory: '%kernel.project_dir%%/public/uploads'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+        App\Domain\Core\Search\CriteriaBuilder\CriteriaBuilderInterface:
+            tags: ['criteria.builder']
+
+    App\Infrastructure\User\Service\UserManager:
+        public: true
+#            arguments:
+#                $passwordHasher: '@security.password_hashers'
+    App\Infrastructure\User\Persistence\Doctrine\Repository\UserRepository: ~
+
+    App\Infrastructure\Offer\ParamConverter\OfferParamConverter:
+        tags:
+            - { name: 'request.param_converter', priority: '1', converter: 'offer_converter' }
+
+    App\Infrastructure\Company\ParamConverter\CompanyParamConverter:
+        tags:
+            - { name: 'request.param_converter', priority: '2', converter: 'company_converter' }
+
+    App\Infrastructure\User\ParamConverter\UserParamConverter:
+        tags:
+            - { name: 'request.param_converter', priority: '2', converter: 'user_converter' }
+
+
+    App\Ui\Rest\Responder\ErrorResponder: ~
+    App\Ui\Rest\Responder\ErrorResponderInterface: '@App\Ui\Rest\Responder\ErrorResponder'
+
+    App\Application\User\UseCase\:
+        resource: '../src/Application/User/UseCase'
+
+    App\Application\Offer\UseCase\:
+        resource: '../src/Application/Offer/UseCase'
+
+    App\Application\Company\UseCase\:
+        resource: '../src/Application/Company/UseCase'
+
+    App\Domain\User\UserRepositoryInterface: '@App\Infrastructure\User\Persistence\Doctrine\Repository\UserRepository'
+
+    Symfony\Component\PasswordHasher\PasswordHasherInterface:
+        public: true
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Application/*/UseCase/'
+            - '../src/Kernel.php'
+            - '../src/Infrastructure/*/Entity/'
+            - '../src/Infrastructure/*/Persistence/Doctrine/ORM/'
+            - '../src/Ui/'
+
+#    App\Application\Offer\QueryHandler\GetListOfferQueryHandler:
+#        tags:
+#            - { name: messenger.message_handler, bus: query.bus }
+
+    App\Ui\Rest\Controller\User\:
+        resource: '../src/Ui/Rest/Controller/User/'
+        tags: ['controller.service_arguments']
+
+    App\Ui\Rest\Controller\Offer\:
+        resource: '../src/Ui/Rest/Controller/Offer/'
+        tags: [ 'controller.service_arguments' ]
+
+    App\Ui\Rest\Controller\Company\:
+        resource: '../src/Ui/Rest/Controller/Company/'
+        tags: [ 'controller.service_arguments' ]
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+#    App\Domain\Core\Search\CriteriaBuilderProvider:
+#        arguments: [ !tagged_iterator { tag: 'criteria.builder' } ]
+
+    App\Infrastructure\Core\Search\Doctrine\CriteriaBuilder\:
+        resource: '../src/Infrastructure/Core/Search/Doctrine/CriteriaBuilder/*'
+        tags:
+            - { name: 'search.criteria.builder', context: 'doctrine' }

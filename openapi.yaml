@@ -1,0 +1,283 @@
+openapi: 3.0.0
+paths:
+  /api/company:
+    post:
+      tags:
+        - Company
+      summary: 'Create company'
+      description: 'Create company'
+      operationId: companyCreate
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: 'company name'
+                description:
+                  type: string
+                  example: 'description company'
+                address:
+                  properties: { province: { type: string, example: Podlaskie }, city: { type: string, example: Bialystok }, address: { type: string, example: '' }, street: { type: string, example: 'Dluga 10' }, postal: { type: string, example: 34-200 } }
+                  type: object
+                active:
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        '400':
+          description: ''
+  '/api/offer/{offer}':
+    get:
+      tags:
+        - Offer
+      summary: 'Get offer by id'
+      operationId: offerGet
+      parameters:
+        -
+          in: query
+          required: true
+          name: offer
+          schema:
+            type: string
+            example: 45d04bcc-610a-4f95-a2ba-e681ffdbbd77
+      responses:
+        '200':
+          description: 'Offer details'
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: 'User not found'
+    put:
+      tags:
+        - Offer
+      summary: 'Update offer'
+      description: 'Update Offer'
+      operationId: offerPut
+      parameters:
+        -
+          in: query
+          required: true
+          name: offer
+          schema:
+            type: string
+            example: 45d04bcc-610a-4f95-a2ba-e681ffdbbd77
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                  example: 'offer title'
+                description:
+                  type: string
+                  example: 'description offer'
+                priceRange:
+                  properties: { minPrice: { type: number }, maxPrice: { type: number } }
+                  type: object
+                companyId:
+                  type: string
+                  example: c5dc1d31-eb7e-410b-a44c-0f06a4377182
+                address:
+                  properties: { province: { type: string, example: Podlaskie }, city: { type: string, example: Bialystok }, address: { type: string, example: '' }, street: { type: string, example: 'Dluga 10' }, postal: { type: string, example: 34-200 } }
+                  type: object
+                active:
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  offerId: { description: 'offer member identity', type: string, format: uuid, example: 00000000-0000-0000-0000-000000000000 }
+                type: object
+        '400':
+          description: ''
+        '403':
+          description: ''
+  /api/offer:
+    get:
+      tags:
+        - Offer
+      summary: 'Get offer list'
+      operationId: offerGetList
+      responses:
+        '200':
+          description: 'Offer details'
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+        - Offer
+      summary: 'Create offer'
+      description: 'Create offer'
+      operationId: offerCreate
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                  example: 'offer title'
+                description:
+                  type: string
+                  example: 'description offer'
+                priceRange:
+                  properties: { minPrice: { type: number }, maxPrice: { type: number } }
+                  type: object
+                companyId:
+                  type: string
+                  example: c5dc1d31-eb7e-410b-a44c-0f06a4377182
+                address:
+                  properties: { province: { type: string, example: Podlaskie }, city: { type: string, example: Bialystok }, address: { type: string, example: '' }, street: { type: string, example: 'Dluga 10' }, postal: { type: string, example: 34-200 } }
+                  type: object
+                active:
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        '400':
+          description: ''
+  '/api/offer/{offer}/activate':
+    post:
+      tags:
+        - Offer
+      summary: 'Activate offer'
+      description: 'Offer Activate'
+      operationId: PostActivateOffer
+      parameters:
+        -
+          in: query
+          required: true
+          name: offer
+          schema:
+            type: string
+            example: 45d04bcc-610a-4f95-a2ba-e681ffdbbd77
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  offerId: { description: 'offer member identity', type: string, format: uuid, example: 00000000-0000-0000-0000-000000000000 }
+                type: object
+        '400':
+          description: ''
+        '403':
+          description: ''
+  '/api/offer/{offer}/deactivate':
+    post:
+      tags:
+        - Offer
+      summary: 'Deactivate offer'
+      description: 'Offer Deactivate'
+      operationId: PostDeactivateOffer
+      parameters:
+        -
+          in: query
+          required: true
+          name: offer
+          schema:
+            type: string
+            example: 45d04bcc-610a-4f95-a2ba-e681ffdbbd77
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  offerId: { description: 'offer member identity', type: string, format: uuid, example: 00000000-0000-0000-0000-000000000000 }
+                type: object
+        '400':
+          description: ''
+        '403':
+          description: ''
+  '/api/user/{user}':
+    get:
+      tags:
+        - User
+      summary: 'Get user by id'
+      operationId: userGet
+      parameters:
+        -
+          in: query
+          required: true
+          name: user
+          schema:
+            type: string
+            example: 45d04bcc-610a-4f95-a2ba-e681ffdbbd77
+      responses:
+        '200':
+          description: 'User details'
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: 'User not found'
+  /api/user:
+    get:
+      tags:
+        - User
+      summary: 'Get user list'
+      operationId: userGetList
+      responses:
+        '200':
+          description: 'User details'
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/register:
+    post:
+      tags:
+        - User
+      summary: 'Register User'
+      description: 'register user'
+      operationId: userRegister
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  example: name
+                lastName:
+                  type: string
+                  example: lastname
+                email:
+                  type: string
+                  example: user@email.com
+                password:
+                  type: string
+                  example: password
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  userId: { description: 'Registered member identity', type: string, format: uuid, example: 00000000-0000-0000-0000-000000000000 }
+                  email: { description: 'Registered member email', type: string, example: email@gamil.com }
+                type: object
+        '400':
+          description: ''

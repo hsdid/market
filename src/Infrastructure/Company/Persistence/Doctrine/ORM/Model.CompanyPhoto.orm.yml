@@ -1,0 +1,25 @@
+App\Domain\Company\Model\CompanyPhoto:
+  type: entity
+  table: company_photo
+  id:
+    photoId:
+      type: company_photo_id
+      column: photo_id
+  fields:
+    path:
+      type: string
+      nullable: false
+    mimeType:
+      type: string
+      nullable: false
+    originalName:
+      type: string
+      nullable: false
+  manyToOne:
+    company:
+      targetEntity: App\Domain\Company\Company
+      inversedBy: photos
+      fetch: EAGER
+      joinColumn:
+        name: company_id
+        referencedColumnName: id

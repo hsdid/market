@@ -1,0 +1,11 @@
+App\Domain\Offer\ValueObject\PriceRange:
+  type: embeddable
+  fields:
+    minPrice:
+      type: float
+      column: minPrice
+      nullable: true
+    maxPrice:
+      type: float
+      column: maxPrice
+      nullable: true

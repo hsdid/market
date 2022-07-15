@@ -1,0 +1,22 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        types:
+            user_id: App\Infrastructure\User\Persistence\Doctrine\Type\UserIdDoctrineType
+            offer_id: App\Infrastructure\Offer\Persistence\Doctrine\Type\OfferIdDoctrineType
+            photo_id: App\Infrastructure\Offer\Persistence\Doctrine\Type\OfferPhotoIdDoctrineType
+            company_id: App\Infrastructure\Company\Persistence\Doctrine\Type\CompanyIdDoctrineType
+            company_photo_id: App\Infrastructure\Company\Persistence\Doctrine\Type\CompanyPhotoIdDoctrineType
+            saved_offer_id: App\Infrastructure\SavedOffer\Persistence\Doctrine\Type\SavedOfferIdDoctrineType
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            #AppUserBundle: ~
+#            App:
+#                is_bundle: false
+#                type: annotation
+#                dir: '%kernel.project_dir%/src/Infrastructure/'
+#                prefix: 'App\Infrastructure'
+#                alias: App

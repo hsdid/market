@@ -1,0 +1,45 @@
+App\Domain\Offer\Offer:
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    table: offer
+    id:
+        offerId:
+            type: offer_id
+            column: id
+    embedded:
+        price:
+            class: App\Domain\Offer\ValueObject\PriceRange
+        address:
+            class: App\Domain\Offer\ValueObject\Address
+    fields:
+        userId:
+            type: user_id
+            nullable: false
+        title:
+            type: string
+            nullable: false
+        description:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: true
+        active:
+            type: boolean
+            options:
+                default: 1
+    oneToMany:
+        photos:
+            targetEntity: App\Domain\Offer\Model\OfferPhoto
+            mappedBy: offer
+            fetch: EAGER
+            cascade: [ "persist", "remove" ]
+            orphanRemoval: true
+            onDelete: CASCADE
+    manyToOne:
+        company:
+            targetEntity: App\Domain\Company\Company
+            inversedBy: offers
+
+
